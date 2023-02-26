@@ -38,7 +38,7 @@ pipeline {
                 sh 'az acr login --name MyHelmACR'
                 sh 'az acr build --image azure-vote-front:v1 --registry MyHelmACR --file Dockerfile .'
                 sh 'docker push myhelmacr.azurecr.io/mediawiki:latest'
-				sh 'az acr repository list --name myhelmacr --output table'
+		sh 'az acr repository list --name myhelmacr --output table'
             			
             }
         }

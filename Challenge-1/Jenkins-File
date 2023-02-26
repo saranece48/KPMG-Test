@@ -1,0 +1,62 @@
+pipeline {   
+    agent any
+    stages {
+        stage('Checkout the SCM') {
+           steps{
+            git 'https://github.com/saranece48/KPMG-Test/Terraform-Deploy-AKS.git'
+            }
+        }
+        stage('terraform Init') {
+            steps{
+                dir('Terraform/') {
+                    sh 'terraform init -no-color'
+        }
+                }
+        }
+        stage('terraform plan') {
+            steps{
+                dir('Terraform/') {
+                    sh 'terraform plan -no-color'
+        }
+            }
+        }
+        stage('terraform apply') {
+            steps{
+                dir('Terraform/') {
+                    sh 'terraform apply --auto-approve -no-color'
+        }
+            }
+        }
+    }
+    stages {
+        stage('Create ACR and Build image and Push to ACR') {
+            steps {
+                sh '$AzCred = Get-Credential -UserName <app-id>'
+                sh 'az login --service-principal -u $AzCred.UserName -p $AzCred.GetNetworkCredential().Password --tenant <tenant>'
+                sh 'az aks install-cli'
+                sh 'az acr create --resource-group azurecontainerservicepoc --name MyHelmACR --sku Basic --admin-enabled true'
+                sh 'az acr login --name MyHelmACR'
+                sh 'az acr build --image azure-vote-front:v1 --registry MyHelmACR --file Dockerfile .'
+                sh 'docker push myhelmacr.azurecr.io/mediawiki:latest'
+				sh 'az acr repository list --name myhelmacr --output table'
+            			
+            }
+        }
+    }
+        stage('Install Helm in Windows') {
+            steps {
+                sh 'choco install kubernetes-helm'
+            }
+        }
+        stage('Clone Helm Chart Repository') {
+            steps {
+                git 'https://github.com/saranece48/KPMG-Test/mediawiki-Helmchart.git'
+            }
+        }
+        stage('Deploy Helm Chart') {
+            steps {
+                sh 'az aks get-credentials --resource-group MyResourceGroup --name MyAKS'
+                sh 'helm install mediawiki ./mediawiki-chart'
+            }
+        }
+    }

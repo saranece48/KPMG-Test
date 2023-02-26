@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: my-image
+    env:
+      - name: CONNECTION_STRING
+        value: "my-connection-string"
+      - name: USERNAME
+        value: "my-username"
+      - name: HOSTNAME
+        value: "my-hostname"
+      - name: URI
+        value: "my-uri"
+      - name: URL
+        value: "my-url"

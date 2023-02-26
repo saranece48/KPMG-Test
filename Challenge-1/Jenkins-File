@@ -50,7 +50,7 @@ pipeline {
         }
         stage('Clone Helm Chart Repository') {
             steps {
-                git 'https://github.com/saranece48/KPMG-Test/mediawiki-Helmchart.git'
+                git 'https://github.com/saranece48/KPMG-Test/tree/main/Challenge-1/mediawiki-Helmchart'
             }
         }
         stage('Deploy Helm Chart') {

@@ -27,8 +27,8 @@ spec:
           image: mediawiki
           volumeMounts:
             - name: csv-volume
-              mountPath: /home/saran/csv/Employee-Data.csv
-              subPath: my-csv-file.csv
+              mountPath: /home/saran/csv
+              subPath: /home/saran/csv/Employee-Data.csv
       volumes:
         - name: csv-volume
           configMap:

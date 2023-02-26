@@ -1,19 +1,15 @@
 apiVersion: v1
-kind: Pod
+kind: ConfigMap
 metadata:
-  name: my-pod
-spec:
-  containers:
-  - name: my-container
-    image: my-image
-    env:
-      - name: CONNECTION_STRING
-        value: "my-connection-string"
-      - name: USERNAME
-        value: "my-username"
-      - name: HOSTNAME
-        value: "my-hostname"
-      - name: URI
-        value: "my-uri"
-      - name: URL
-        value: "my-url"
+  name: my-pod-config
+data:
+  CODE_CONFIG: |
+    # configuration for my code
+    max_requests=100
+    timeout=30
+  USERNAME: myuser
+  HOSTNAME: localhost
+  URI: https://example.com/api
+  URL: https://example.com
+  connection-string: |
+    jdbc:mysql://localhost:3306/mydb?user=myuser&password=mypass

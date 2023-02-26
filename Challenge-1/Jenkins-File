@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout the SCM') {
            steps{
-            git 'https://github.com/saranece48/KPMG-Test/Terraform-Deploy-AKS.git'
+            git 'https://github.com/saranece48/KPMG-Test/tree/main/Challenge-1/Terraform-Deploy-AKS'
             }
         }
         stage('terraform Init') {
